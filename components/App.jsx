@@ -3,6 +3,8 @@ import SearchBarContainer from '../containers/SearchBarContainer';
 import MovieListContainer from '../containers/MovieListContainer';
 
 const App = (props) => {
+  console.log('PROPS CHILDRENITOS')
+  console.log(props.children);
   return (
     <div>
       <nav>NAVBAR</nav>
