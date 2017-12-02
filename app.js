@@ -5,7 +5,6 @@ const { movieTrend } = require('./utils/trendFetch');
 const { avgTweetEmotion } = require('./utils/twitterEmotion');
 const { fetchRatings } = require('./utils/ratingFetch');
 const Movie = require('./db/Movie');
-
 const app = express();
 
 app.use(express.static('public'));
@@ -13,9 +12,10 @@ const public = path.join(__dirname, '/public');
 
 const port = process.env.PORT || 7331;
 
-app.get('/', (req, res) => {
-  res.send('This is the landing page!');
-});
+app.get('/latestTen', async (req, res) => {
+  var latestTen = await Movie.find().sort({"updatedAt": -1}).limit(10);
+  res.send(latestTen);
+})
 
 app.get('/search/:movie', (req, res) => {
   omdb.searchMoviesByName(req.params.movie).then((data) => {
@@ -36,7 +36,7 @@ app.get('/trends/:title', async (req, res) => {
     };
   });
   console.log(trendData);
-  res.send(trendData); 
+  res.send(trendData);
 });
 
 app.get('/sentiment/:title', async (req, res) => {
@@ -45,7 +45,6 @@ app.get('/sentiment/:title', async (req, res) => {
   console.log(tweets);
   res.send(tweets);
 })
-
 
 app.get('/ratings/:id', async (req, res) => {
   const { id } = req.params;
