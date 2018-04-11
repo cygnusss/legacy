@@ -3,13 +3,9 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class MovieList extends Component {
-
-  componentDidMount() {
+  componentWillUnmount() {
     const { query } = this.props.match.params;
     this.props.fetchMovies(query);
-  }
-
-  componentWillUnmount() {
     this.props.clearMovies();
   }
 
